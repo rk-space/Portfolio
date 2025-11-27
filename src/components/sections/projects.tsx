@@ -1,78 +1,90 @@
-"use client";
+import Link from 'next/link';
+import { Github, ExternalLink } from 'lucide-react';
+import { ScrollAnimator } from "@/components/scroll-animator";
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { projectsData } from "@/lib/data";
-import { Github } from "lucide-react";
-import { cn } from "@/lib/utils";
+const projects = [
+  { 
+    icon: '🛒', 
+    title: 'E-Commerce Platform',
+    tech: ['Spring Boot', 'Angular', 'MySQL', 'JWT'],
+    desc: 'Full-featured e-commerce application with product catalog, shopping cart, order management, and secure payment integration. Implements JWT authentication and role-based access control.',
+    github: '#',
+    live: '#'
+  },
+  { 
+    icon: '👥',
+    title: 'Employee Management System',
+    tech: ['Angular', 'Spring Boot', 'Hibernate', 'MySQL'],
+    desc: 'Enterprise-grade HR management system with comprehensive CRUD operations, employee analytics, department management, and role-based access control. Built with clean architecture principles.',
+    github: '#',
+    live: '#'
+  },
+  { 
+    icon: '📊',
+    title: 'SamsTrack',
+    tech: ['Spring Boot', 'Hibernate', 'MySQL', 'REST API'],
+    desc: 'Comprehensive attendance tracking system with automated reporting, real-time analytics, and multi-user support. Features include leave management, report generation, and dashboard analytics.',
+    github: '#',
+    live: '#'
+  },
+  { 
+    icon: '💬',
+    title: 'Real-Time Chat App',
+    tech: ['Spring Boot', 'WebSocket', 'React', 'MongoDB'],
+    desc: 'Real-time messaging application using WebSocket technology. Features include group chats, private messaging, online status indicators, and message history with MongoDB persistence.',
+    github: '#',
+    live: '#'
+  },
+  { 
+    icon: '📝',
+    title: 'Blog Platform',
+    tech: ['Spring Boot', 'Angular', 'PostgreSQL', 'AWS S3'],
+    desc: 'Modern blogging platform with rich text editor, image uploads, user authentication, commenting system, and SEO optimization. Integrated with AWS S3 for media storage.',
+    github: '#',
+    live: '#'
+  },
+];
 
-const filters = ["All", "Java", "Angular"];
+const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => (
+  <ScrollAnimator className="transition-all duration-500" style={{ transitionDelay: `${index * 100}ms` }}>
+    <div className="bg-card border border-border rounded-xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 hover:border-primary">
+      <div className="w-full h-48 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center text-6xl border-b border-border">
+        {project.icon}
+      </div>
+      <div className="p-6 flex-grow flex flex-col">
+        <h3 className="text-xl font-bold mb-2 text-foreground">{project.title}</h3>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tech.map(t => (
+            <span key={t} className="px-3 py-1 bg-primary/10 border border-primary/30 rounded-full text-xs font-mono font-semibold text-primary">
+              {t}
+            </span>
+          ))}
+        </div>
+        <p className="text-secondary-foreground leading-relaxed flex-grow">{project.desc}</p>
+        <div className="flex gap-4 mt-6">
+          <Link href={project.github} className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary text-primary font-semibold text-sm transition-colors hover:bg-primary hover:text-white">
+            <Github size={16} /> View Code
+          </Link>
+          <Link href={project.live} className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-secondary-foreground font-semibold text-sm transition-colors hover:text-primary">
+            <ExternalLink size={16} /> Live Demo
+          </Link>
+        </div>
+      </div>
+    </div>
+  </ScrollAnimator>
+);
 
 export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  const filteredProjects =
-    activeFilter === "All"
-      ? projectsData
-      : projectsData.filter((p) => p.category === activeFilter);
-
   return (
-    <section id="projects">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold font-headline">My Projects</h2>
-        <p className="text-muted-foreground">A selection of my recent work.</p>
+    <section id="projects" className="section">
+      <div className="text-center mb-16">
+        <div className="font-mono text-primary text-sm font-semibold mb-4">// Portfolio</div>
+        <h2 className="text-4xl font-black mb-4">Featured Projects</h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Real-world applications showcasing technical expertise</p>
       </div>
-
-      <div className="flex justify-center gap-2 mb-8">
-        {filters.map((filter) => (
-          <Button
-            key={filter}
-            variant={activeFilter === filter ? "default" : "outline"}
-            onClick={() => setActiveFilter(filter)}
-            className={cn("transition-all", activeFilter === filter && "shadow-md")}
-          >
-            {filter}
-          </Button>
-        ))}
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        {filteredProjects.map((project) => (
-          <Card key={project.id} className="flex flex-col group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <CardContent className="p-0">
-              <Image
-                src={project.imageUrl}
-                alt={project.title}
-                width={600}
-                height={400}
-                className="rounded-t-lg object-cover aspect-video transition-transform duration-300 group-hover:scale-105"
-                data-ai-hint={project.imageHint}
-              />
-            </CardContent>
-            <CardHeader>
-              <CardTitle className="font-headline">{project.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
-                  <Badge key={tech} variant="secondary">{tech}</Badge>
-                ))}
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" asChild>
-                <Link href={project.githubUrl} target="_blank">
-                  <Github className="mr-2 h-4 w-4" />
-                  View on GitHub
-                </Link>
-              </Button>
-            </CardFooter>
-          </Card>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((p, i) => (
+          <ProjectCard key={p.title} project={p} index={i} />
         ))}
       </div>
     </section>

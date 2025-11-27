@@ -17,9 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Space Grotesk', 'sans-serif'],
-        code: ['monospace'],
+        sans: ['Inter', 'sans-serif'],
+        mono: ['Fira Code', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -55,18 +54,12 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
-        },
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        xl: 'calc(var(--radius) + 4px)',
       },
       keyframes: {
         'accordion-down': {
@@ -85,10 +78,25 @@ export default {
             height: '0',
           },
         },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        'line-1': 'fade-in-up 0.5s 0.2s ease-out forwards',
+        'line-2': 'fade-in-up 0.5s 0.3s ease-out forwards',
+        'line-3': 'fade-in-up 0.5s 0.4s ease-out forwards',
+        'line-4': 'fade-in-up 0.5s 0.5s ease-out forwards',
+        'line-5': 'fade-in-up 0.5s 0.6s ease-out forwards',
+        'line-6': 'fade-in-up 0.5s 0.7s ease-out forwards',
+        'line-7': 'fade-in-up 0.5s 0.8s ease-out forwards',
+        'line-8': 'fade-in-up 0.5s 0.9s ease-out forwards',
+        'line-9': 'fade-in-up 0.5s 1.0s ease-out forwards',
+        'line-10': 'fade-in-up 0.5s 1.1s ease-out forwards',
       },
     },
   },

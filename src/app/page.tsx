@@ -1,31 +1,34 @@
 import Header from "@/components/layout/header";
 import Hero from "@/components/sections/hero";
 import About from "@/components/sections/about";
-import ResumeTimeline from "@/components/sections/resume-timeline";
 import Skills from "@/components/sections/skills";
+import Education from "@/components/sections/education";
 import Projects from "@/components/sections/projects";
-import GithubActivity from "@/components/sections/github-activity";
-import ContactForm from "@/components/sections/contact-form";
+import Contact from "@/components/sections/contact-form";
 import Footer from "@/components/layout/footer";
-import { Separator } from "@/components/ui/separator";
+import { ScrollAnimator } from "@/components/scroll-animator";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
       <Header />
-      <main className="flex-1 flex flex-col items-center">
+      <main>
         <Hero />
-        <About />
-        <Separator />
-        <ResumeTimeline />
-        <Separator />
-        <Skills />
-        <Separator />
-        <Projects />
-        <Separator />
-        <GithubActivity />
-        <Separator />
-        <ContactForm />
+        <ScrollAnimator>
+          <About />
+        </ScrollAnimator>
+        <ScrollAnimator>
+          <Skills />
+        </ScrollAnimator>
+        <ScrollAnimator>
+          <Education />
+        </ScrollAnimator>
+        <ScrollAnimator>
+          <Projects />
+        </ScrollAnimator>
+        <ScrollAnimator>
+          <Contact />
+        </ScrollAnimator>
       </main>
       <Footer />
     </div>
