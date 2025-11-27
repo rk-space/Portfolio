@@ -36,11 +36,11 @@ export default function Education() {
       <div>
         <TimelineItem
           icon={<GraduationCap className="text-white" />}
-          title="Bachelor of Technology in Tech"
+          title=" Bachelor of Technology"
           institution="Veermata Jijabai Technological Institute (VJTI)"
           date="📅 Expected Graduation: 2025"
           details={[
-            "Specialized in Computer Science and Engineering",
+            "Specialized in Electronics and Telecommunication",
             "Strong foundation in data structures, algorithms, and software engineering",
             "Completed projects in full-stack development and database management",
             "Active participation in coding competitions and tech events"
