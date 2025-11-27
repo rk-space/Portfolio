@@ -42,14 +42,14 @@ export default function Projects() {
 
       <div className="grid md:grid-cols-2 gap-8">
         {filteredProjects.map((project) => (
-          <Card key={project.id} className="flex flex-col">
+          <Card key={project.id} className="flex flex-col group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardContent className="p-0">
               <Image
                 src={project.imageUrl}
                 alt={project.title}
                 width={600}
                 height={400}
-                className="rounded-t-lg object-cover aspect-video"
+                className="rounded-t-lg object-cover aspect-video transition-transform duration-300 group-hover:scale-105"
                 data-ai-hint={project.imageHint}
               />
             </CardContent>

@@ -9,7 +9,7 @@ export default function About() {
     <section id="about" className="bg-secondary">
       <div className="grid md:grid-cols-3 gap-8 md:gap-12 items-center">
         <div className="md:col-span-1 flex justify-center">
-          <Card className="rounded-full w-48 h-48 md:w-64 md:h-64 overflow-hidden shadow-lg">
+          <Card className="rounded-full w-48 h-48 md:w-64 md:h-64 overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
             <CardContent className="p-0">
             {profileImage && (
               <Image
