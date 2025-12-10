@@ -94,7 +94,7 @@ export default function Contact() {
           <ContactCard icon={<Mail />} title="Email" value="rushikeshkharode9@gmail.com" href="mailto:rushikeshkharode9@gmail.com" />
           <ContactCard icon={<Phone />} title="Phone" value="+91 88067 46360" href="tel:+918806746360" />
           <ContactCard icon={<MapPin />} title="Location" value="Mumbai, India" href="#" />
-          <ContactCard icon={<Linkedin />} title="LinkedIn" value="Rushikesh_Kharode" href="https://www.linkedin.com/in/Rushikesh_Kharode" />
+          <ContactCard icon={<Linkedin />} title="LinkedIn" value="Rushikesh_Kharode" href="https://www.linkedin.com/in/rushikesh-kharode-2484b9258/" />
         </div>
         <div className="bg-card border border-border rounded-xl p-8">
           <Form {...form}>

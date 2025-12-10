@@ -31,14 +31,14 @@ export default function Education() {
       <div className="text-center mb-16">
         <div className="font-mono text-primary text-sm font-semibold mb-4">// Academic Journey</div>
         <h2 className="text-4xl font-black mb-4">Education</h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Building a strong foundation in computer science and engineering</p>
+        {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Building a strong foundation in Full Stackengineering</p> */}
       </div>
       <div>
         <TimelineItem
           icon={<GraduationCap className="text-white" />}
           title=" Bachelor of Technology"
           institution="Veermata Jijabai Technological Institute (VJTI)"
-          date="📅 Expected Graduation: 2025"
+          date="📅 Completed: 2025"
           details={[
             "Specialized in Electronics and Telecommunication",
             "Strong foundation in data structures, algorithms, and software engineering",

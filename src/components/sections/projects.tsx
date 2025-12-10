@@ -8,7 +8,7 @@ const projects = [
     title: 'E-Commerce Platform',
     tech: ['Spring Boot', 'Angular', 'MySQL', 'JWT'],
     desc: 'Full-featured e-commerce application with product catalog, shopping cart, order management, and secure payment integration. Implements JWT authentication and role-based access control.',
-    github: '#',
+    github: 'https://github.com/rk-space/E-commerce-platform',
     live: '#'
   },
   { 
@@ -16,7 +16,7 @@ const projects = [
     title: 'Employee Management System',
     tech: ['Angular', 'Spring Boot', 'Hibernate', 'MySQL'],
     desc: 'Enterprise-grade HR management system with comprehensive CRUD operations, employee analytics, department management, and role-based access control. Built with clean architecture principles.',
-    github: '#',
+    github: 'https://github.com/rk-space/Employee-Management-System-Angular-and-Spring-Boot',
     live: '#'
   },
   { 
@@ -27,22 +27,30 @@ const projects = [
     github: '#',
     live: '#'
   },
-  { 
-    icon: '💬',
-    title: 'Real-Time Chat App',
-    tech: ['Spring Boot', 'WebSocket', 'React', 'MongoDB'],
-    desc: 'Real-time messaging application using WebSocket technology. Features include group chats, private messaging, online status indicators, and message history with MongoDB persistence.',
-    github: '#',
+  {
+    icon: '💼',
+    title: 'Job Portal',
+    tech: ['Spring Boot', 'React', 'MySQL', 'JWT'],
+    desc: 'A comprehensive job portal where users can search for jobs, and companies can post job openings. Features user authentication and job management dashboards.',
+    github: 'https://github.com/rk-space/Job-portal-react-springboot',
     live: '#'
   },
-  { 
-    icon: '📝',
-    title: 'Blog Platform',
-    tech: ['Spring Boot', 'Angular', 'PostgreSQL', 'AWS S3'],
-    desc: 'Modern blogging platform with rich text editor, image uploads, user authentication, commenting system, and SEO optimization. Integrated with AWS S3 for media storage.',
-    github: '#',
+  {
+    icon: '📚',
+    title: 'ReadSphere',
+    tech: ['Spring Boot', 'React', 'MongoDB'],
+    desc: 'A book tracking application to manage your reading list, track progress, and discover new books. Built with a modern tech stack for a seamless user experience.',
+    github: 'https://github.com/rk-space/ReadSphere',
     live: '#'
   },
+  {
+    icon: '🎲',
+    title: 'Tic Tac Toe',
+    tech: ['Java', 'Swing'],
+    desc: 'A classic Tic Tac Toe game built with Java and the Swing GUI toolkit. A fun project demonstrating core Java concepts and UI development.',
+    github: 'https://github.com/rk-space/Tic-Tac-Toe-Game',
+    live: '#'
+  }
 ];
 
 const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => (
