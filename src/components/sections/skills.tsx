@@ -37,7 +37,7 @@ const SkillBar = ({ name, level, width }: { name: string, level: string, width: 
     </div>
     <div className="h-2 bg-secondary rounded-full overflow-hidden">
       <div 
-        className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-1000 ease-out" 
+        className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-1000 ease-out skill-progress"
         style={{ width: '0%' }}
         data-width={width}
       ></div>
