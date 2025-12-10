@@ -44,11 +44,11 @@ const projects = [
     live: '#'
   },
   {
-    icon: '🎲',
-    title: 'Tic Tac Toe',
-    tech: ['Java', 'Swing'],
-    desc: 'A classic Tic Tac Toe game built with Java and the Swing GUI toolkit. A fun project demonstrating core Java concepts and UI development.',
-    github: 'https://github.com/rk-space/Tic-Tac-Toe-Game',
+    icon: '📰',
+    title: 'News Website',
+    tech: ['React', 'JavaScript', 'NewsAPI'],
+    desc: 'A web application that provides you with the latest news from various categories using the NewsAPI. Built with React for a dynamic user experience.',
+    github: 'https://github.com/rk-space/News-web-app',
     live: '#'
   }
 ];
