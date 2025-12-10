@@ -57,7 +57,7 @@ export default function Hero() {
              <SocialLink href="https://github.com/rk-space" title="GitHub">
                 <Github />
              </SocialLink>
-             <SocialLink href="https://www.linkedin.com/in/Rushikesh_Kharode" title="LinkedIn">
+             <SocialLink href="https://www.linkedin.com/in/rushikesh-kharode-2484b9258/" title="LinkedIn">
                 <Linkedin />
              </SocialLink>
           </div>

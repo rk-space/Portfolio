@@ -1,0 +1,173 @@
+/**
+ * Core Philosophy: This ruleset enforces a mixed security model tailored for a portfolio application.
+ * It provides strict ownership for private user data, public read access for portfolio content (projects, skills),
+ * and role-based administrative control over all public content and sensitive data like contact submissions.
+ *
+ * Data Structure: The data is organized into several top-level collections:
+ * - `/users/{userId}`: Stores private user profile data. Access is strictly controlled by the user's UID.
+ * - `/projects/{projectId}`: Publicly readable project information.
+ * - `/skills/{skillId}`: Publicly readable skill information.
+ * - `/contactFormSubmissions/{submissionId}`: Private submissions from the contact form.
+ * - `/roles_admin/{userId}`: A lookup collection to grant admin privileges. The existence of a document
+ *   for a user's UID signifies they are an administrator.
+ *
+ * Key Security Decisions:
+ * - Admin Role Management: The `/roles_admin` collection is not writable from the client. This is a critical security
+ *   measure ensuring that admin privileges can only be granted from a trusted server environment or the Firebase Console.
+ * - Public vs. Private: Public portfolio data (`/projects`, `/skills`) is segregated into its own collections,
+ *   allowing for safe and performant public `list` operations. Writes to this data are restricted to administrators.
+ * - Contact Form Security: Any authenticated user can create a contact submission, but only administrators can read
+ *   or manage the submitted data, protecting the privacy of the messages.
+ * - No User Enumeration: Listing documents in the `/users` and `/roles_admin` collections is explicitly disabled to
+ *   prevent attackers from discovering a list of all application users or administrators.
+ * - Denormalization for Authorization: The `/roles_admin` collection is a classic example of denormalization. Instead of
+ *   storing a role on a user profile (which would require an extra `get` call in rules), we use a simple `exists()` check
+ *   against this dedicated collection for fast and efficient role-based authorization.
+ *
+ * Structural Segregation: The separation of public content (`projects`, `skills`) from private user data (`users`)
+ * and sensitive admin-only data (`contactFormSubmissions`) is a core design choice. This simplifies rule logic
+ * and enhances security by preventing accidental data exposure through broad list queries.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper Functions
+    // ----------------
+
+    /**
+     * Checks if a user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently authenticated user is the owner of a document,
+     * identified by matching their UID with the provided userId.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * For update/delete operations: verifies that the document exists
+     * AND that the requesting user is the owner.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+    
+    /**
+     * For update/delete operations: verifies that the document exists before
+     * allowing the operation to proceed.
+     */
+    function isExistingDoc() {
+      return resource != null;
+    }
+
+    /**
+     * Checks if the requesting user has admin privileges by looking for their
+     * UID in the `/roles_admin` collection.
+     */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    /**
+     * On create, validates that the user is setting their own UID in the `id` field.
+     */
+    function hasValidUserIdOnCreate(userId) {
+      return request.resource.data.id == userId;
+    }
+
+    /**
+     * On update, ensures the `id` field, which links the document to the user, is immutable.
+     */
+    function isUserIdImmutable() {
+      return request.resource.data.id == resource.data.id;
+    }
+
+    // Collection Rules
+    // ----------------
+
+    /**
+     * @description A user can create, read, update, and delete their own profile, but cannot access others'.
+     * @path /users/{userId}
+     * @allow (create) An authenticated user with UID 'user123' creating a document at `/users/user123`.
+     * @deny (get) An authenticated user 'user456' trying to read the document at `/users/user123`.
+     * @deny (list) Any user trying to list all documents in the `/users` collection.
+     * @principle Restricts access to a user's own data tree and prevents user enumeration.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && hasValidUserIdOnCreate(userId);
+      allow update: if isExistingOwner(userId) && isUserIdImmutable();
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Projects are public and can be read by anyone. However, only administrators
+     * can create, modify, or delete project listings.
+     * @path /projects/{projectId}
+     * @allow (list) Any visitor (even unauthenticated) listing all projects.
+     * @allow (create) An authenticated admin user creating a new project document.
+     * @deny (update) A regular, non-admin authenticated user trying to update a project.
+     * @principle Implements a "Public Read with Role-Based Writes" pattern for managing portfolio content.
+     */
+    match /projects/{projectId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Skills are public and can be read by anyone. Only administrators
+     * can add, change, or remove skills from the portfolio.
+     * @path /skills/{skillId}
+     * @allow (get) Any visitor (even unauthenticated) reading a specific skill.
+     * @allow (create) An authenticated admin user creating a new skill document.
+     * @deny (delete) A regular, non-admin authenticated user trying to delete a skill.
+     * @principle Implements a "Public Read with Role-Based Writes" pattern for managing portfolio content.
+     */
+    match /skills/{skillId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin() && isExistingDoc();
+    }
+
+    /**
+     * @description Any authenticated user (including anonymous users) can submit a contact form.
+     * However, only administrators can read, update, or delete submissions.
+     * @path /contactFormSubmissions/{submissionId}
+     * @allow (create) Any authenticated user creating a new submission.
+     * @allow (get) An administrator reading a specific user's submission.
+     * @deny (list) A regular user trying to list all form submissions.
+     * @deny (get) A regular user trying to read the submission they just created.
+     * @principle Segregates create access from read/manage access to protect sensitive submitted data.
+     */
+    match /contactFormSubmissions/{submissionId} {
+      allow get, list: if isAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin() && isExistingDoc();
+    }
+    
+    /**
+     * @description Defines which users have admin privileges. This collection is read-only from the client
+     * to prevent tampering. Roles must be assigned through a trusted server environment.
+     * @path /roles_admin/{userId}
+     * @allow (get) An admin checking if another user has an admin role.
+     * @deny (list) Any user trying to get a list of all administrators.
+     * @deny (create) Any user trying to grant themselves admin privileges.
+     * @principle Locks down role management to prevent privilege escalation from the client-side.
+     */
+    match /roles_admin/{userId} {
+      allow get: if isAdmin();
+      allow list: if false;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
