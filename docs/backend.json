@@ -111,10 +111,6 @@
       "type": "object",
       "description": "Represents a submission from the contact form.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the ContactFormSubmission entity."
-        },
         "name": {
           "type": "string",
           "description": "The name of the person submitting the form."
@@ -135,7 +131,6 @@
         }
       },
       "required": [
-        "id",
         "name",
         "email",
         "message",
@@ -152,7 +147,7 @@
   "firestore": {
     "structure": [
       {
-        "path": "/users/{userId}/profile",
+        "path": "/users/{userId}",
         "definition": {
           "entityName": "UserProfile",
           "schema": {
@@ -232,6 +227,6 @@
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to store user profiles, projects, skills, and contact form submissions. It adheres to the principles of Authorization Independence, Structural Segregation, Access Modeling, and Data Clarity. User profiles are stored under `/users/{userId}/profile` and follows path-based ownership. Project, Skills, and ContactFormSubmission are stored at root level collections `/projects`, `/skills`, `/contactFormSubmissions`. ContactFormSubmission are accessible to admins (an admin role collection `roles_admin/{userId}` controls access). Projects and Skills are public-facing and are not user specific. This design ensures clear separation of concerns and simplifies security rules. It facilitates secure list operations for all data, and it removes hierarchical authorization dependencies."
+    "reasoning": "The Firestore data structure is designed to store user profiles, projects, skills, and contact form submissions. It adheres to the principles of Authorization Independence, Structural Segregation, Access Modeling, and Data Clarity. User profiles are stored under `/users/{userId}`. Project, Skills, and ContactFormSubmission are stored at root level collections `/projects`, `/skills`, `/contactFormSubmissions`. ContactFormSubmission are accessible to admins (an admin role collection `roles_admin/{userId}` controls access). Projects and Skills are public-facing and are not user specific. This design ensures clear separation of concerns and simplifies security rules. It facilitates secure list operations for all data, and it removes hierarchical authorization dependencies."
   }
 }

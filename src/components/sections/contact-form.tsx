@@ -98,7 +98,11 @@ export default function Contact() {
         </div>
         <div className="bg-card border border-border rounded-xl p-8">
           <Form {...form}>
-            <form action={formAction} className="space-y-6">
+            <form
+              // @ts-ignore
+              action={form.handleSubmit(() => formAction(new FormData(form.control._formValues)))}
+              className="space-y-6"
+            >
               <FormField
                 control={form.control}
                 name="name"
