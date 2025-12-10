@@ -82,6 +82,14 @@ export default function Contact() {
     }
   }, [state, toast, form]);
 
+  const onFormSubmit = (data: ContactFormValues) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    formAction(formData);
+  };
+
   return (
     <section id="contact" className="section">
       <div className="text-center mb-16">
@@ -99,8 +107,7 @@ export default function Contact() {
         <div className="bg-card border border-border rounded-xl p-8">
           <Form {...form}>
             <form
-              // @ts-ignore
-              action={form.handleSubmit(() => formAction(new FormData(form.control._formValues)))}
+              onSubmit={form.handleSubmit(onFormSubmit)}
               className="space-y-6"
             >
               <FormField
