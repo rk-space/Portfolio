@@ -6,7 +6,7 @@ export default function Footer() {
         <span className="font-semibold text-primary">Rushikesh Kharode</span>. All rights reserved.
       </div>
       <div className="text-sm">
-        Designed & Built with ❤️ using Spring Boot & Angular
+        Designed & Built with ❤️ using Next.js & Tailwind CSS
       </div>
     </footer>
   );
