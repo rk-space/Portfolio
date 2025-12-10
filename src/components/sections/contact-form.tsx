@@ -1,10 +1,10 @@
 "use client";
 import { Mail, Phone, MapPin, Linkedin, Send } from "lucide-react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect } from "react";
+import { useEffect, useActionState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,7 +52,7 @@ function SubmitButton() {
 
 export default function Contact() {
   const { toast } = useToast();
-  const [state, formAction] = useFormState(submitContactForm, {
+  const [state, formAction] = useActionState(submitContactForm, {
     type: "",
     message: "",
   });
